@@ -243,76 +243,100 @@ form button {
 #myUnOrdList {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    width: 100%;
     max-width: 1200px;
+    margin-top: 10px;
 }
 
 .todo-list {
-    min-width: 25%;
-    overflow: hidden;
-    /* To remove the bullets of unordered list */
+    width: 100%;
+    max-width: 620px;
     list-style: none;
+    padding: 0;
+    overflow: hidden;
 }
 
 .todo {
-    margin: 1rem;
-    /* background: rgb(247, 226, 223); */
-    /* color: black; */
+    margin: 1rem 0;
     font-size: 19px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.25em 0.5em;
-    border-radius: 30px;
-    transition: background-color 200ms ease-in-out;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    border-radius: 22px;
+    transition: background-color 200ms ease-in-out, transform 200ms ease, box-shadow 200ms ease;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
-/* Items themes */
+.todo:hover {
+    transform: translateY(-2px);
+}
+
 .standard-todo {
-    background-color: rgb(26, 27, 27);
+    background-color: rgba(26, 27, 27, 0.95);
 }
 
 .light-todo {
-    background-color:#AEB1B4;
+    background-color: rgba(174, 177, 180, 0.95);
 }
 
 .darker-todo {
-    background-color: #01394c;
+    background-color: rgba(1, 57, 76, 0.95);
 }
 
-.todo li{
-    padding: 7px;
-    /* word-wrap: break-word; */
-    /* flex-wrap: wrap; */
-    font-size: 20px;
-    flex: 1; /* To push the trash and the check button to the right */
-    border-radius: 30px;
-
-    /* wraps the links */
-    overflow-wrap: anywhere;
-}
-
-.check-btn, .delete-btn {
-    font-size: 19px;
-    cursor: pointer;
-    width: 2em;
-    height: 2em;
-    border-radius: 80%;
-    margin: 0 5px;
+.todo-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
 }
 
 .todo-item {
-    padding: 0rem 0.5rem;
+    padding: 0;
+    margin-bottom: 0.35rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    overflow-wrap: anywhere;
 }
 
-.fa-trash, .fa-check { 
+.todo-created-at {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    margin: 0;
+}
+
+.todo-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.check-btn,
+.delete-btn {
+    font-size: 19px;
+    cursor: pointer;
+    width: 2.4em;
+    height: 2.4em;
+    border-radius: 50%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fa-trash,
+.fa-check {
     pointer-events: none;
 }
 
-
-.completed {
-    transition: 0.2s;
+.completed .todo-item {
     text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.completed .todo-created-at {
     opacity: 0.5;
 }
 
@@ -375,5 +399,17 @@ form button {
     }
     form > button.light-button {
         box-shadow: 0 0 5px lightgray;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .todo {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .todo-actions {
+        width: 100%;
+        justify-content: flex-end;
     }
 }
