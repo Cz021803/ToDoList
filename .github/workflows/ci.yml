@@ -17,25 +17,18 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '14'
-
+        node-version: '20'
+        cache: 'npm'
 
     - name: Install Dependencies
-      # We add '|| true' so the pipeline keeps moving even with warnings
-      run: npm install --legacy-peer-deps || true 
+      run: npm install
 
-    - name: Run Build and Test Simulation
-      # This 'working-directory' tells GitHub where your package.json actually is
-      # If your folder name is different, change 'ToDoList' below to your folder name
-      run: |
-        npm run build --if-present || echo "Build skipped"
-        echo "Build and Test steps executed successfully"
+    - name: Run Tests
+      run: npm test
 
-    - name: Generate and Upload Report
-      run: echo "CI Execution Report for ToDoList" > report.txt
-    
-    - name: Upload Artifact
+    - name: Upload Coverage Report
+      if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: ci-report
-        path: report.txt
+        name: coverage-report
+        path: coverage/
