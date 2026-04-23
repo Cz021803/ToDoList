@@ -6,6 +6,7 @@ const standardTheme = document.querySelector('.standard-theme');
 const lightTheme = document.querySelector('.light-theme');
 const darkerTheme = document.querySelector('.darker-theme');
 const dateTime = document.getElementById('datetime');
+const searchInput = document.querySelector('.search-input');
 
 // Event Listeners
 toDoBtn.addEventListener('click', addToDo);
@@ -15,13 +16,36 @@ standardTheme.addEventListener('click', () => changeTheme('standard'));
 lightTheme.addEventListener('click', () => changeTheme('light'));
 darkerTheme.addEventListener('click', () => changeTheme('darker'));
 
+if (searchInput) {
+    searchInput.addEventListener('input', filterTodos);
+}
+
 // Check saved theme
 let savedTheme = localStorage.getItem('savedTheme');
 savedTheme === null ? changeTheme('standard') : changeTheme(savedTheme);
 
 // Live header date/time
-updateDateTime();
-setInterval(updateDateTime, 1000);
+if (dateTime) {
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+}
+
+// Search / filter todos
+function filterTodos(event) {
+    const todos = toDoList.childNodes;
+    const searchText = event.target.value.toLowerCase();
+
+    todos.forEach(function(todo) {
+        if (todo.nodeType === Node.ELEMENT_NODE) {
+            const text = todo.querySelector('.todo-item').innerText.toLowerCase();
+            if (text.includes(searchText)) {
+                todo.style.display = 'flex';
+            } else {
+                todo.style.display = 'none';
+            }
+        }
+    });
+}
 
 // Add new todo
 function addToDo(event) {
@@ -276,6 +300,10 @@ function changeTheme(color) {
         : document.getElementById('title').classList.remove('darker-title');
 
     document.querySelector('.todo-input').className = `todo-input ${color}-input`;
+
+    if (document.querySelector('.search-input')) {
+        document.querySelector('.search-input').className = `search-input ${color}-input`;
+    }
 
     document.querySelectorAll('.todo').forEach(todo => {
         if (todo.classList.contains('completed')) {
