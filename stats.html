@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Statistics - ToDo List</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .stats-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .stat-card {
+            background: #f5f5f5;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .stat-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: #6f42c1;  /* MODIFICATION 3: Changed to purple */
+            margin: 15px 0;
+        }
+        .stat-label {
+            font-size: 18px;
+            color: #666;
+        }
+        .task-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 30px;
+        }
+        .task-item {
+            background: #f9f9f9;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .task-completed {
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 24px;
+            background: #6f42c1;  /* MODIFICATION 3: Changed to purple */
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+        .back-btn:hover {
+            background: #5a32a3;
+        }
+        .clear-btn {
+            margin-top: 20px;
+            margin-left: 10px;
+            padding: 12px 24px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .clear-btn:hover {
+            background: #c82333;
+        }
+        /* MODIFICATION 2: Progress bar styles */
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        .progress-fill {
+            width: 0%;
+            height: 25px;
+            border-radius: 10px;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+            font-size: 14px;
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container stats-container">
+        <h1><i class="fas fa-chart-bar"></i> Task Statistics</h1>
+        
+        <div class="stat-card">
+            <div class="stat-label">Total Tasks</div>
+            <div class="stat-number" id="totalTasks">0</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-label">Completed Tasks</div>
+            <div class="stat-number" id="completedTasks">0</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-label">Pending Tasks</div>
+            <div class="stat-number" id="pendingTasks">0</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-label">Completion Rate</div>
+            <div class="stat-number" id="completionRate">0%</div>
+        </div>
+        
+        <!-- MODIFICATION 2: Progress Bar -->
+        <div class="stat-card">
+            <div class="stat-label">Progress</div>
+            <div class="progress-container">
+                <div id="progressFill" class="progress-fill">0%</div>
+            </div>
+        </div>
+        
+        <h2><i class="fas fa-tasks"></i> All Tasks</h2>
+        <ul class="task-list" id="taskList">
+            <li>Loading tasks...</li>
+        </ul>
+        
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to ToDo List</a>
+        
+        <!-- MODIFICATION 1: Clear All Tasks Button -->
+        <button id="clearAllBtn" class="clear-btn"><i class="fas fa-trash"></i> Clear All Tasks</button>
+    </div>
+    
+    <script src="JS/stats.js"></script>
+</body>
+</html>

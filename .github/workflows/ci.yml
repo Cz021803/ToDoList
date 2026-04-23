@@ -19,6 +19,7 @@ jobs:
       with:
         node-version: '14'
 
+
     - name: Install Dependencies
       # We add '|| true' so the pipeline keeps moving even with warnings
       run: npm install --legacy-peer-deps || true 
@@ -36,5 +37,5 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ci-repor
+        name: ci-report
         path: report.txt
