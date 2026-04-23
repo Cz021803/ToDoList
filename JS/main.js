@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", getTodos);
 standardTheme.addEventListener('click', () => changeTheme('standard'));
 lightTheme.addEventListener('click', () => changeTheme('light'));
 darkerTheme.addEventListener('click', () => changeTheme('darker'));
+searchInput.addEventListener('input', filterTodos);
 
 if (searchInput) {
     searchInput.addEventListener('input', filterTodos);
