@@ -36,5 +36,5 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ci-repor
+        name: ci-report
         path: report.txt
