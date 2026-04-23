@@ -4,8 +4,9 @@
   "description": "A dynamic and aesthetic To-Do List WebApp",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage",
-    "test:watch": "jest --watch"
+    "test": "npx jest --coverage",
+    "test:watch": "npx jest --watch"
+
   },
   "keywords": ["todo", "javascript", "jest", "testing"],
   "author": "",
