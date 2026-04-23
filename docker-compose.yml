@@ -1,0 +1,7 @@
+services:
+  todolist-staging:
+    build: .
+    container_name: todolist-staging
+    ports:
+      - "8081:80"
+    restart: unless-stopped
