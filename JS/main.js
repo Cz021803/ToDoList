@@ -5,21 +5,38 @@ const toDoList = document.querySelector('.todo-list');
 const standardTheme = document.querySelector('.standard-theme');
 const lightTheme = document.querySelector('.light-theme');
 const darkerTheme = document.querySelector('.darker-theme');
+const searchInput = document.querySelector('.search-input');
 
 // Event Listeners
 toDoBtn.addEventListener('click', addToDo);
 toDoList.addEventListener('click', deletecheck);
-toDoList.addEventListener('click', editToDo);  // NEW: Edit event listener
 document.addEventListener("DOMContentLoaded", getTodos);
 standardTheme.addEventListener('click', () => changeTheme('standard'));
 lightTheme.addEventListener('click', () => changeTheme('light'));
 darkerTheme.addEventListener('click', () => changeTheme('darker'));
+searchInput.addEventListener('input', filterTodos);
 
 // Check if one theme has been set previously and apply it (or std theme if not found)
 let savedTheme = localStorage.getItem('savedTheme');
 savedTheme === null ? changeTheme('standard') : changeTheme(localStorage.getItem('savedTheme'));
 
 // Functions
+
+function filterTodos(event) {
+    const todos = toDoList.childNodes;
+    const searchText = event.target.value.toLowerCase();
+    
+    todos.forEach(function(todo) {
+        if (todo.nodeType === Node.ELEMENT_NODE) {
+            const text = todo.querySelector('.todo-item').innerText.toLowerCase();
+            if (text.includes(searchText)) {
+                todo.style.display = 'flex';
+            } else {
+                todo.style.display = 'none';
+            }
+        }
+    });
+}
 
 function addToDo(event) {
     event.preventDefault();
@@ -226,7 +243,10 @@ function changeTheme(color) {
         document.getElementById('title').classList.add('darker-title') : 
         document.getElementById('title').classList.remove('darker-title');
     
-    document.querySelector('input').className = `${color}-input`;
+    document.querySelector('.todo-input').className = `todo-input ${color}-input`;
+    if (document.querySelector('.search-input')) {
+        document.querySelector('.search-input').className = `search-input ${color}-input`;
+    }
     
     // Change todo color without changing their status
     document.querySelectorAll('.todo').forEach(todo => {
