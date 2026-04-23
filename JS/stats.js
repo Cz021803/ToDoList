@@ -1,104 +1,60 @@
-// Function to get tasks from localStorage
-function getTasks() {
-    const tasks = localStorage.getItem('tasks');
-    if (tasks) {
-        return JSON.parse(tasks);
-    }
-    return [];
-}
+// Statistics Page - Tharani Chandran (2106415)
+// Reads tasks from localStorage and displays statistics
 
-// Function to save tasks to localStorage
-function saveTasks(tasks) {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-}
-
-// Function to calculate and display statistics
-function displayStatistics() {
-    const tasks = getTasks();
+document.addEventListener('DOMContentLoaded', function() {
+    // Get tasks from localStorage (same as main page)
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     
-    const totalTasks = tasks.length;
-    const completedTasks = tasks.filter(task => task.completed === true).length;
-    const pendingTasks = totalTasks - completedTasks;
-    const completionRate = totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
+    // Calculate statistics
+    const total = tasks.length;
+    const completed = tasks.filter(task => task.completed === true).length;
+    const pending = total - completed;
+    const completionRate = total === 0 ? 0 : Math.round((completed / total) * 100);
     
-    document.getElementById('totalTasks').textContent = totalTasks;
-    document.getElementById('completedTasks').textContent = completedTasks;
-    document.getElementById('pendingTasks').textContent = pendingTasks;
-    document.getElementById('completionRate').textContent = completionRate + '%';
+    // Update the statistics display
+    document.getElementById('total-tasks').innerText = total;
+    document.getElementById('completed-tasks').innerText = completed;
+    document.getElementById('pending-tasks').innerText = pending;
+    document.getElementById('completion-rate').innerText = completionRate + '%';
     
-    // Update progress bar
-    const progressFill = document.getElementById('progressFill');
-    if (progressFill) {
-        progressFill.style.width = completionRate + '%';
-        progressFill.textContent = completionRate + '%';
-        
-        if (completionRate < 30) {
-            progressFill.style.backgroundColor = '#dc3545';
-        } else if (completionRate < 70) {
-            progressFill.style.backgroundColor = '#ffc107';
-            progressFill.style.color = '#333';
-        } else {
-            progressFill.style.backgroundColor = '#28a745';
-        }
+    // Update progress bar if it exists
+    const progressBar = document.getElementById('progress-bar');
+    if (progressBar) {
+        progressBar.style.width = completionRate + '%';
+        progressBar.setAttribute('aria-valuenow', completionRate);
     }
     
+    // Display all tasks
     displayAllTasks(tasks);
-}
+});
 
-// Function to display all tasks
 function displayAllTasks(tasks) {
-    const taskListElement = document.getElementById('taskList');
+    const tasksContainer = document.getElementById('all-tasks-list');
+    if (!tasksContainer) return;
     
     if (tasks.length === 0) {
-        taskListElement.innerHTML = '<li class="task-item">No tasks found. Add some tasks!</li>';
+        tasksContainer.innerHTML = '<p style="text-align: center; color: #666;">No tasks found. Add some tasks!</p>';
         return;
     }
     
-    taskListElement.innerHTML = '';
-    tasks.forEach((task, index) => {
-        const li = document.createElement('li');
-        li.className = 'task-item';
-        li.innerHTML = `
-            <span class="${task.completed ? 'task-completed' : ''}">
-                ${task.completed ? '✅' : '○'} ${escapeHtml(task.text)}
-            </span>
-            <span>
-                ${task.completed ? 'Completed ✓' : 'Pending ⏳'}
-            </span>
+    let tasksHtml = '<ul style="list-style: none; padding: 0;">';
+    tasks.forEach(task => {
+        const status = task.completed ? '✅ Completed' : '⏳ Pending';
+        tasksHtml += `
+            <li style="padding: 10px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between;">
+                <span><strong>${escapeHtml(task.text)}</strong></span>
+                <span>${status}</span>
+            </li>
         `;
-        taskListElement.appendChild(li);
     });
+    tasksHtml += '</ul>';
+    
+    tasksContainer.innerHTML = tasksHtml;
 }
 
-// Helper function to escape HTML
+// Helper function to prevent XSS attacks
 function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
 }
-
-// Clear all tasks function
-function clearAllTasks() {
-    if (confirm('⚠️ WARNING: This will delete ALL your tasks. Are you sure?')) {
-        localStorage.removeItem('tasks');
-        displayStatistics();
-        alert('All tasks have been deleted!');
-    }
-}
-
-// Load statistics when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    displayStatistics();
-    
-    const clearBtn = document.getElementById('clearAllBtn');
-    if (clearBtn) {
-        clearBtn.addEventListener('click', clearAllTasks);
-    }
-});
-
-// Update statistics when localStorage changes
-window.addEventListener('storage', function(e) {
-    if (e.key === 'tasks') {
-        displayStatistics();
-    }
-});
