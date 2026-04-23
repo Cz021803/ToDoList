@@ -243,8 +243,10 @@ form button {
 #myUnOrdList {
     display: flex;
     justify-content: center;
-    align-items: center;
-    max-width: 1200px;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1201px;
+    margin-top: 10px;
 }
 
 .todo-list {
